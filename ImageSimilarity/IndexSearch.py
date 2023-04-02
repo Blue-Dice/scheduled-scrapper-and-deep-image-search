@@ -20,7 +20,6 @@ class SimilarityIndex():
             response = requests.get(query_url)
             query_feat = self.VggController.extract_features(response.content)
             index_list = self.target_vecs.get_nns_by_vector(query_feat, query_num)
-            Log.success(f"Similarity search successful!")
             return self.image_data.iloc[index_list]['target_urls'].to_list()
         except Exception as e:
             Log.error(f"Error while running similarity search -> {e}")
