@@ -12,7 +12,7 @@ logging.addLevelName(REPORT, "REPORT")
 logging.addLevelName(SUCCESS, "SUCCESS")
 
 class CustomLogger(logging.Logger):
-    def __init__(self, name, console_level=INFO):
+    def __init__(self, name, console_level=DEBUG):
         super().__init__(name, console_level)
         self.streamHandler = logging.StreamHandler(sys.stdout)
         self.streamHandler.setFormatter(self._build_formatter())
@@ -21,7 +21,7 @@ class CustomLogger(logging.Logger):
     def _build_formatter(self):
         return coloredlogs.ColoredFormatter('%(asctime)s | %(message)s', '%H:%M:%S', '%',
             {
-                'debug': {'color': 'yellow', 'faint': True},
+                'debug': {'color': 'yellow', 'bold': True},
                 'error': {'color': 'red', 'bold': True},
                 'report': {'color': 'white', 'bold': True},
                 'success': {'color': 'green', 'bold': True}
@@ -30,7 +30,7 @@ class CustomLogger(logging.Logger):
 
     def log(self, msg, level=INFO):
         super().log(level, msg)
-logger = CustomLogger("ISR - Scheduler & Deep Image Search")
+logger = CustomLogger("ISR - Scheduler & Image similarity search")
 
 def error(msg):
     return logger.log(msg, level=ERROR)

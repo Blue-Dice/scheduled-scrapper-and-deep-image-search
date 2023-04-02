@@ -31,6 +31,7 @@ class ProductService():
         CORS(app)
         CSRFProtect(app)
         app.route("/", methods=["GET", "POST"])(self.index)
+        app.route("/get-similar-products", methods=["GET", "POST"])(self.similar_product_lookup)
         app.run(self.host, self.port, self.debug)
     
     def index(self) -> tuple[dict,int]:
