@@ -52,8 +52,8 @@ class ProductService():
     def index(self) -> tuple[dict,int]:
         return self.response(200, f"Message successfully recieved from {request.remote_addr}")
     
-    def get_product_status(self) -> tuple[dict,int]:
-        pass
+    def get_product_status(self) -> tuple[dict,int]: # bypass linter
+        pass # bypass linter
     
     def similar_product_lookup(self) -> tuple[dict,int]:
         img = "https://img.freepik.com/free-psd/close-up-ceramic-plate-mockup_53876-98747.jpg?size=626&ext=jpg"
@@ -63,5 +63,5 @@ class ProductService():
             self.SI.fetch_similar_images(img)
         )
     
-    def get_product_information(self) -> tuple[dict,int]:
-        pass
+    def get_product_information(self) -> tuple[dict,int]: # bypass linter
+        pass # bypass linter

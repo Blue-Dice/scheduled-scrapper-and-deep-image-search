@@ -2,10 +2,11 @@ from io import BytesIO
 from tqdm import tqdm
 from annoy import AnnoyIndex
 from Helpers import Logger as Log
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from keras.utils import load_img, img_to_array
 from keras.applications.vgg16 import VGG16, preprocess_input
 from tensorflow.python.keras.models import Model
-import os
 import numpy as np
 import pandas as pd
 import requests
@@ -56,7 +57,7 @@ class FeatureMap():
         except Exception as e:
             Log.error(f"Error while loading image metadata -> {e}")
     
-    def extract_vectors(self, image_data: pd.DataFrame) -> None:
+    def extract_vectors(self, image_data: pd.DataFrame) -> AnnoyIndex:
         try:
             feature_length = len(image_data['target_feats'][0])
             target_vecs = AnnoyIndex(feature_length, 'euclidean')
@@ -76,10 +77,11 @@ class FeatureMap():
             image = preprocess_input(image)
             target_feat = self.model.predict(image)[0]
             return target_feat / np.linalg.norm(target_feat)
-        except Exception:
+        except Exception as e:
+            Log.error(f"Error extracting image features -> {e}")
             return None
         
-    def fetch_image_features(self, image_urls: list) -> None:
+    def fetch_features_and_vectors(self, image_urls: list) -> tuple[pd.DataFrame, AnnoyIndex]:
         try:
             image_data = pd.DataFrame()
             target_urls = []
